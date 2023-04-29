@@ -1,6 +1,7 @@
 from flask import Flask, render_template, send_from_directory
 
 from Helpers import *
+import os
 import requests
 import requests_cache
 import json
@@ -17,7 +18,7 @@ if __name__ == "__main__":
 APP_VERSION = "1.2"
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.apth.join(app.root_path, 'static'),
+    return send_from_directory(os.path.join(app.root_path, 'static'),
         'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/slick')
