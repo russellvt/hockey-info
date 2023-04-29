@@ -44,7 +44,17 @@ def show_playoffs():
             playoff_msg = []
             current_round = r['defaultRound']
             for series in r['rounds'][current_round]['series']:
+                    # FIXME: Issue #2
+                    '''
+                    File "hockey-info/app.py", line 47, in show_playoffs
                     playoff_msg.append({'matchup': series['names']['matchupShortName'], 'status': series['currentGame']['seriesSummary']['seriesStatus']})
+                    KeyError: 'seriesStatus'
+                    '''
+                    try:
+                        playoff_msg.append({'matchup': series['names']['matchupShortName'], 'status': series['currentGame']['seriesSummary']['seriesStatus']})
+                    except KeyError as err:
+                        print("Key Error:", err)
+
             return render_template('index.html', last_game=last_game_data,games=games_data,matches=playoff_msg, playoff_round=current_round,headlines=h,all_teams=teams,version=APP_VERSION)
         else:
             return render_template('index.html', last_game=last_game_data, games=games_data, headlines=h,all_teams=teams,version=APP_VERSION)
