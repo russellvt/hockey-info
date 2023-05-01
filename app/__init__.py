@@ -8,7 +8,8 @@ Originally forked from:
 
 from flask import Flask, render_template, send_from_directory
 
-from Helpers import *
+from app.Helpers import *
+
 import os
 import requests
 import requests_cache
