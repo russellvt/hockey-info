@@ -1,6 +1,7 @@
 from flask import Flask, render_template, send_from_directory
 
 from Helpers import *
+import os
 import requests
 import requests_cache
 import json
@@ -14,10 +15,10 @@ if __name__ == "__main__":
 
 # version display stuff
 #APP_VERSION = subprocess.check_output(["git","rev-parse","HEAD"]).strip().decode("utf-8")
-APP_VERSION = "1.2"
+APP_VERSION = "2.0"
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.apth.join(app.root_path, 'static'),
+    return send_from_directory(os.path.join(app.root_path, 'static'),
         'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/slick')
@@ -43,7 +44,17 @@ def show_playoffs():
             playoff_msg = []
             current_round = r['defaultRound']
             for series in r['rounds'][current_round]['series']:
+                    # FIXME: Issue #2
+                    '''
+                    File "hockey-info/app.py", line 47, in show_playoffs
                     playoff_msg.append({'matchup': series['names']['matchupShortName'], 'status': series['currentGame']['seriesSummary']['seriesStatus']})
+                    KeyError: 'seriesStatus'
+                    '''
+                    try:
+                        playoff_msg.append({'matchup': series['names']['matchupShortName'], 'status': series['currentGame']['seriesSummary']['seriesStatus']})
+                    except KeyError as err:
+                        print("Key Error:", err)
+
             return render_template('index.html', last_game=last_game_data,games=games_data,matches=playoff_msg, playoff_round=current_round,headlines=h,all_teams=teams,version=APP_VERSION)
         else:
             return render_template('index.html', last_game=last_game_data, games=games_data, headlines=h,all_teams=teams,version=APP_VERSION)
