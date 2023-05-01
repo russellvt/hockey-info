@@ -63,5 +63,7 @@ class HockeyTestCase(unittest.TestCase):
 		result = halp.get_current_season()
 		self.assertEqual(len(result), 8)
 
-	if __name__ == '__main__':
-		unittest.main()
+if __name__ == '__main__':
+    unittest.main()
+
+# vim: noai et:
