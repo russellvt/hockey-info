@@ -1,3 +1,11 @@
+'''
+Hockey Info Flask App
+
+Originally forked from:
+  - https://github.com/dword4/hockey-info.git
+'''
+
+
 from flask import Flask, render_template, send_from_directory
 
 from Helpers import *
